@@ -10,7 +10,7 @@ use classes\WGinit;
  * Version: 1.0
  * Author: Yura Khrustiuk
  * Author URI: https://www.facebook.com/yura.hristuk/
- * Text Domain: chat-gpt-content-writer
+ * Text Domain: WriteGenie
  */
 
 // Define the plugin directory path constant
@@ -38,7 +38,12 @@ function chat_gpt_wg_activate() {
 // Function to run during plugin deactivation
 function chat_gpt_wg_deactivate()
 {
-    // Code to delete the plugin's table upon deactivation
+    if ( class_exists( 'classes\WGDB' ) ) {
+        // Create an instance of the WGDB class
+        $wg_db = new WGDB();
+        // Delete table
+        $wg_db->delete_table();
+    }
 }
 
 // Check if the WGinit class exists

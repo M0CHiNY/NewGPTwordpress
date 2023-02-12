@@ -58,4 +58,26 @@ class WGDB {
             trigger_error( $result->get_error_message(), E_USER_WARNING );
         }
     }
+    /**
+     * Deletes the database table.
+     *
+     * @return WP_Error|bool Returns a WP_Error object on failure, or true on success.
+     */
+    public function delete_table() {
+        global $wpdb;
+
+        $this->table_name = $wpdb->prefix . 'wg_table_gpt';
+
+        // Define the SQL query for deleting the table
+        $sql = "DROP TABLE IF EXISTS $this->table_name;";
+
+        // Run the SQL query to delete the table
+        $result = $wpdb->query( $sql );
+        // If there was an error deleting the table, return a WP_Error object
+        if ( $result === false ) {
+            return new WP_Error( 'wg_table_deletion_failed', __( 'Failed to delete WriteGenie plugin database table.', 'writegenie' ) );
+        }
+
+        return true;
+    }
 }
