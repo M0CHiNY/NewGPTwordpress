@@ -4,34 +4,45 @@ use classes\WGDB;
 use classes\WGinit;
 
 /**
- * Plugin Name: TEST 1
- * Plugin URI: https://github.com/huseyinstif/Chat-GPT-Wordpress-Plugin
- * Description: Chat GPT Content Writer
+ * Plugin Name: WriteGenie
+ * Plugin URI: https://github.com/M0CHiNY/NewGPTwordpress/blob/master/index.php
+ * Description: WriteGenie - A Chat-based Content Writing Assistant powered by GPT-3 Technology.
  * Version: 1.0
- * Author: Hüseyin Tıntaş
- * Author URI: https://github.com/huseyinstif/Chat-GPT-Wordpress-Plugin
+ * Author: Yura Khrustiuk
+ * Author URI: https://www.facebook.com/yura.hristuk/
  * Text Domain: chat-gpt-content-writer
- *
- * Please do not use without citing the source. It is an open source project and cannot be sold for a fee.
- * Lütfen kaynak ve isim belirtmeden kullanmayınız. Open source projedir, ücretli satılamaz.
  */
 
+// Define the plugin directory path constant
 define( 'WG_CHAT_GPT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'WG_CHAT_GPT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
+// Include the required class files
 require WG_CHAT_GPT_PLUGIN_DIR. 'classes/WGinit.php';
 require WG_CHAT_GPT_PLUGIN_DIR . 'classes/WGDB.php';
 
 // Register plugin activation and deactivation hooks
-register_activation_hook( __FILE__, 'chat_gpt_content_writer_activate' );
-register_deactivation_hook( __FILE__, 'chat_gpt_content_writer_deactivate' );
+register_activation_hook( __FILE__, 'chat_gpt_wg_activate' );
+register_deactivation_hook( __FILE__, 'chat_gpt_wg_deactivate' );
 
-function chat_gpt_content_writer_activate() {
-    new WGinit();
-    $wg_db = new WGDB();
-    $wg_db->init_db();
+// Function to run during plugin activation
+function chat_gpt_wg_activate() {
+    // Check if the WGDB class exists
+    if ( class_exists( 'classes\WGDB' ) ) {
+        // Create an instance of the WGDB class
+        $wg_db = new WGDB();
+        // Call the init_db method of the WGDB class
+        $wg_db->init_db();
+    }
 }
 
-function chat_gpt_content_writer_deactivate() {
+// Function to run during plugin deactivation
+function chat_gpt_wg_deactivate()
+{
     // Code to delete the plugin's table upon deactivation
+}
+
+// Check if the WGinit class exists
+if ( class_exists( 'classes\WGinit' ) ) {
+    // Create an instance of the WGinit class
+    new WGinit();
 }

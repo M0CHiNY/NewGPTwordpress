@@ -1,6 +1,6 @@
 <?php
 
-namespace WriteGenie\Classes;
+namespace classes;
 
 use \WP_Error;
 
