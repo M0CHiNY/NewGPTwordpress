@@ -38,14 +38,14 @@ class WGinit {
      * Callback function that includes the "wg-board.php" file when the "writegenie_board" page is accessed
      */
     public function wgBoard(){
-        include plugin_dir_path(__FILE__)."/wg-board.php";
+        include plugin_dir_path(__FILE__)."Pages/wg-board.php";
     }
 
     /**
      * Callback function that includes the "wg-settings.php" file when the "writegenie_settings" page is accessed
      */
     public function wgSettings(){
-        include plugin_dir_path(__FILE__)."/wg-settings.php";
+        include plugin_dir_path(__FILE__)."Pages/wg-settings.php";
     }
 
 }
