@@ -51,3 +51,16 @@ if ( class_exists( 'classes\WGinit' ) ) {
     // Create an instance of the WGinit class
     new WGinit();
 }
+
+
+// Enqueue a JavaScript file
+function writegenie_admin_scripts() {
+    wp_enqueue_script( 'writegenie-admin-script', plugin_dir_url( __FILE__ ) . 'js/writegenie-admin.js', array( 'jquery' ), '1.0.0', true );
+}
+add_action( 'admin_enqueue_scripts', 'writegenie_admin_scripts' );
+
+// Enqueue a CSS file
+function writegenie_admin_styles() {
+    wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', 'all' );
+}
+add_action( 'admin_enqueue_scripts', 'writegenie_admin_styles' );
