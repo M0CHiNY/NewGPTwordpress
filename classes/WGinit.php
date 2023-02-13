@@ -2,7 +2,12 @@
 namespace classes;
 
 // Define the WGinit class
+use PathBackTrait;
+
+require plugin_dir_path( __FILE__ ).'PathBackTrait.php';
+
 class WGinit {
+    use PathBackTrait;
 
     /**
      * Constructor method that adds an action hook to "admin_menu"
@@ -44,7 +49,7 @@ class WGinit {
      */
     public function wgBoard(){
         // Include the "wg-board.php" file
-        include $this->pathBack(1)."/wg-board.php";
+        require $this->pathBack(0)."/wg-board.php";
     }
 
     /**
@@ -53,26 +58,7 @@ class WGinit {
      */
     public function wgSettings(){
         // Include the "wg-settings.php" file
-        include $this->pathBack(1)."/wg-settings.php";
-    }
-
-    /**
-     * Returns the root path of the plugin directory
-     *
-     * @param int $num The number of parent directories to remove from the current directory
-     *
-     * @return string The root path of the plugin directory
-     */
-    private function pathBack($num){
-        $num = 0;
-        // Get the plugin directory path
-        $root_path = plugin_dir_path( __FILE__ );
-
-        // Remove the specified number of parent directories
-        for ($i=0; $i<=$num; $i++) {
-            $root_path = dirname($root_path);
-        }
-        return $root_path;
+        require $this->pathBack(0)."/wg-settings.php";
     }
 
 }

@@ -4,6 +4,7 @@ namespace classes;
 
 class ContentWriter
 {
+    use \PathBackTrait;
     // Private property to store the WordPress database object
     private $wpdb;
     // Private property to store the name of the table
@@ -41,10 +42,10 @@ class ContentWriter
         $this->results = $wpdb->get_results($sql);
 
         // Set the properties of the class based on the information retrieved from the database
-        $this->apiToken = $this->results[0]->api_token;
-        $this->temperature = $this->results[0]->temperature;
-        $this->maxTokens = $this->results[0]->max_tokens;
-        $this->language = $this->results[0]->language;
+        $this->apiToken = $this->results[0]->api_token ?? NULL;
+        $this->temperature = $this->results[0]->temperature ?? NULL;
+        $this->maxTokens = $this->results[0]->max_tokens ?? NULL;
+        $this->language = $this->results[0]->language ?? NULL;
     }
 
     // Method to include the appropriate language file based on the value of the language property
@@ -53,10 +54,11 @@ class ContentWriter
         // Check if the value of the language property is in the list of languages
         if (in_array($this->language, $this->languages)) {
             // Include the language file for the language specified in the language property
-            include "language/".$this->language.".php";
+            include $this->pathBack(0)."/language/ua.php";
+            return 0;
         } else {
             // Include the default language file (English)
-            include "language/en.php";
+            include $this->pathBack(0)."/language/en.php";
         }
     }
 
