@@ -64,13 +64,4 @@ class WGinit {
         require $this->pathBack(0)."/wg-settings.php";
     }
 
-//    public function enqueue_scripts() {
-//        // Enqueue a JavaScript file
-//        wp_enqueue_script( 'writegenie-admin-script', $this->pathBack(0) . '/js/writegenie-admin.js', array( 'jquery' ), '1.0.0', true );
-//
-//        // Enqueue a CSS file
-//        wp_enqueue_style( 'writegenie-admin-style', $this->pathBack(-5) . 'css/writegenie-admin.css', array(), '1.0.0', 'all' );
-//    }
-
-
 }

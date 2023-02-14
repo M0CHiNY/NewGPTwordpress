@@ -2,7 +2,7 @@
 
 namespace classes;
 
-class ContentWriter
+class Settings
 {
     use \PathBackTrait;
     // Private property to store the WordPress database object
@@ -42,10 +42,10 @@ class ContentWriter
         $this->results = $wpdb->get_results($sql);
 
         // Set the properties of the class based on the information retrieved from the database
-        $this->apiToken = $this->results[0]->api_token ?? NULL;
-        $this->temperature = $this->results[0]->temperature ?? NULL;
-        $this->maxTokens = $this->results[0]->max_tokens ?? NULL;
-        $this->language = $this->results[0]->language ?? NULL;
+        $this->apiToken = $this->results[0]->api_token;
+        $this->temperature = $this->results[0]->temperature;
+        $this->maxTokens = $this->results[0]->max_tokens ;
+        $this->language = $this->results[0]->language;
     }
 
     // Method to include the appropriate language file based on the value of the language property
@@ -88,5 +88,13 @@ class ContentWriter
             ]);
             echo "<script>location.reload();</script>";
         }
+    }
+
+    public function getTableData() {
+        global $wpdb;
+        $tablename = $wpdb->prefix . 'wg_table_gpt';
+        $sql = "SELECT * FROM $tablename";
+        $results = $wpdb->get_results($sql);
+        return $results;
     }
 }
