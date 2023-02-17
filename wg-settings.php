@@ -60,7 +60,7 @@ function imgPath($path){
                     </label> <label class="settings__label">Select Language</label> <select class="settings__label settings__lang" name="selectLanguage" value="">
                         <option class="settings__input" value="en" <?php echo ($settings->getTableData()[0]->language) == 'en' ? 'selected': ''  ?> >English US</option>
                         <option class="settings__input" value="ua" <?php echo ($settings->getTableData()[0]->language) == 'ua' ? 'selected': ''  ?> >Ukraine UA</option>
-                    </select> <button class="settings__btn settings__btn-save" type="submit" name="submit-test">Save Settings</button> <input class="settings__btn settings__btn-reset" type="reset" value="Reset">
+                    </select> <button class="settings__btn settings__btn-save" type="submit" name="submit-test">Save Settings</button>
                 </form>
                 <div class="settings__box-img"><img class="settings__img" src="<?= imgPath('brain.png"')?>" alt="big logo brain"></div>
             </div><span class="settings__version">Version 1.0</span>
