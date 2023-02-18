@@ -49,18 +49,7 @@ class Settings
     }
 
     // Method to include the appropriate language file based on the value of the language property
-    public function getLanguageFile()
-    {
-        // Check if the value of the language property is in the list of languages
-        if (in_array($this->language, $this->languages)) {
-            // Include the language file for the language specified in the language property
-            include $this->pathBack(0)."/language/ua.php";
-            return 0;
-        } else {
-            // Include the default language file (English)
-            include $this->pathBack(0)."/language/en.php";
-        }
-    }
+
 
     public function updateOrInsert()
     {

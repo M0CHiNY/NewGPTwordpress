@@ -26,8 +26,8 @@ class WGinit {
     public function create_menu() {
         // Add the main menu page for the plugin
         add_menu_page(
-            __( 'WriteGenie', 'text' ), // Page title
-            __( 'WriteGenie', 'text' ), // Menu title
+            __( 'WriteGenie', 'gpt-textdomain' ), // Page title
+            __( 'WriteGenie', 'gpt-textdomain' ), // Menu title
             'manage_options', // Capability
             'writegenie_board', // URL address
             [$this, 'wgBoard'], // Callback function
