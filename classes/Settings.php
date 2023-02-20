@@ -59,7 +59,7 @@ class Settings
                 'api_token' => $this->apiToken,
                 'temperature' => $this->temperatureValue,
                 'max_tokens' => $this->maxTokens,
-                'language' => $this->selectLanguage
+                'language' => $this->selectLanguage,
             ], [
                 'id' => $id
             ]);
@@ -71,7 +71,7 @@ class Settings
                 'api_token' => $this->apiToken,
                 'temperature' => $this->temperatureValue,
                 'max_tokens' => $this->maxTokens,
-                'language' => $this->selectLanguage
+                'language' => $this->selectLanguage,
             ], [
                 '%s', '%s', '%s', '%s'
             ]);

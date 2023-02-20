@@ -32,6 +32,7 @@ function chat_gpt_wg_activate() {
         $wg_db = new WGDB();
         // Call the init_db method of the WGDB class
         $wg_db->init_db();
+        $wg_db->set_defaults();
     }
 }
 
@@ -49,7 +50,8 @@ function chat_gpt_wg_deactivate()
 // Check if the WGinit class exists
 if ( class_exists( 'classes\WGinit' ) ) {
     // Create an instance of the WGinit class
-    new WGinit();
+   new WGinit();
+
 }
 
 
