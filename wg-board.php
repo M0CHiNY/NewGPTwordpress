@@ -1,15 +1,50 @@
+<?php
 
+use classes\ChatGpt;
+use classes\BlogPost;
+
+require plugin_dir_path(__FILE__) . 'classes/ChatGpt.php';
+require plugin_dir_path(__FILE__) . 'classes/BlogPost.php';
+
+// Check if the required class exists
+if (!class_exists('classes\ChatGpt')) {
+    exit('The Settings class is missing.');
+}
+
+global $wpdb;
+$chatGPT = new ChatGpt($wpdb);
+
+if (isset($_POST['generate'])){
+    $user_input = $_POST['request'];
+    $chatGPT->generate_content($user_input);
+}
+
+if (isset($_POST['btn-post'])){
+  $title = $_POST['title'];
+  $content = $_POST['content'];
+  $keys = $_POST['keys'];
+
+  $blog = new BlogPost($title, $content, $keys, 'publish', 1, NULL);
+  $blog->insert_into_database();
+}
+
+function imgPath($path){
+    return plugin_dir_url(__FILE__).'img/assets/'.$path;
+}
+
+?>
 <section class="chat">
     <div class="container">
-        <div class="settings__logo-box"><a class="settings__logo" href="/"><img class="settings__logo-img"
-                                                                                src="assets/logo.png"
-                                                                                alt="logo GPT WriteGenie"></a></div>
-        <div class="bg">
+        <div class="settings__logo-box"><a class="settings__logo" href="/"><img class="settings__logo-img" src="<?= imgPath('logo.png');?>" alt="logo GPT WriteGenie"></a></div>
+        <div class="bg" style="background-image: url('<?= imgPath('bg.jpg')?>')">
             <div class="chat__wrap">
                 <div class="chat__left-form-box">
-                    <form class="chat__form form-bg" action=""><label class="chat__label" for="">Request to Chat GPT
-                            <textarea class="chat__text text-to-copy" name="" id="" cols="30" rows="10"
-                                      placeholder="Example: write short article about the most popular pc games "></textarea>
+
+
+                    <form class="chat__form form-bg" method="POST">
+                        <label class="chat__label" for="">Request to Chat GPT
+                            <textarea class="chat__text text-to-copy" name="request" id="" cols="30" rows="10"
+                                      placeholder="Example: write short article about the most popular pc games "><?php echo $chatGPT->getResult() ?></textarea>
                             <div class="copy-message"></div>
                             <button class="chat__coppy">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
@@ -18,12 +53,17 @@
                                           fill="#8B8B8B"/>
                                 </svg>
                             </button>
-                            <div class="chat__btn-box"><input class="btn btn--save" type="submit" value="Generate">
-                                <input class="btn btn--reset" type="reset" value="reset"></div>
-                        </label></form>
-                    <form class="chat__form form-bg" action=""><label class="chat__label" for="">Post Title <input
-                                    class="chat__input input" placeholder="Example: the most popular pc games"></label>
-                        <label class="chat__label" for="">Post Content <textarea class="chat__text text-to-copy" name=""
+                            <div class="chat__btn-box">
+                                <input class="btn btn--save" type="submit" name="generate">
+                                <input class="btn btn--reset" type="reset" value="reset">
+                            </div>
+                        </label>
+                    </form>
+
+                    <form class="chat__form form-bg" method="POST"><label class="chat__label" >Post Title
+                            <input
+                                    class="chat__input input" name="title" placeholder="Example: the most popular pc games" ></label>
+                        <label class="chat__label">Post Content <textarea class="chat__text text-to-copy" name="content"
                                                                                  id="" cols="30" rows="10"></textarea>
                             <button class="chat__coppy chat__coppy--post-content">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
@@ -35,35 +75,18 @@
                             <div class="copy-message"></div>
                         </label>
                         <h3 class="chat__category">Category</h3>
-                        <div class="chat__checkbox-inner"><label class="chat__lab-check"><input type="checkbox"
-                                                                                                class="chat__real-checkbox">
-                                <span class="chat__castom-chekbox"></span> Variant 1</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 2</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 3</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 4</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 5</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 6</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 7</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 8</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 9</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 10</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 11</label> <label
-                                    class="chat__lab-check"><input type="checkbox" class="chat__real-checkbox"> <span
-                                        class="chat__castom-chekbox"></span> Variant 12</label></div>
-                        <div class="chat__label"><p>Key Words</p><input class="chat__key" value="tag1, tag2 autofocus">
+                        <div class="chat__checkbox-inner">
+                            <?php
+                            $categories = get_categories([ 'hide_empty' => 0 ]);
+                            foreach ($categories as $category):?>
+                            <label class="chat__lab-check" name='test'><input  type="checkbox"  value="<?= $category->term_id ?>" class="chat__real-checkbox">
+                                <span class="chat__castom-chekbox"></span><?= $category->name?></label>
+                            <?php endforeach ?>
+                            </div>
+                        <div class="chat__label"><p>Key Words</p><input class="chat__key" name="keys">
                             <div class="chat__details"><span class="chat__keys"></span></div>
                         </div>
-                        <div class="chat__btn-box"><input class="btn btn--save" type="submit" value="Generate"> <input
+                        <div class="chat__btn-box"><input class="btn btn--save" type="submit" name="btn-post" value="add post"> <input
                                     class="btn btn--reset" type="reset" value="reset"></div>
                     </form>
                 </div>

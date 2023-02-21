@@ -65,21 +65,3 @@ function writegenie_admin_styles() {
     wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', );
 }
 add_action( 'admin_enqueue_scripts', 'writegenie_admin_styles', );
-
-
-// Регистрация скриптов и стилей
-//function alecrm_register_assets() {
-//    wp_enqueue_script( 'writegenie-admin-script', plugin_dir_url( __FILE__ ) . 'js/writegenie-admin.js', array( 'jquery' ), '1.0.0', true );
-//
-//    wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', );
-//}
-//add_action('admin_enqueue_scripts', 'alecrm_register_assets');
-////Подключение скриптов и стилей
-//function alecrm_load_assets ($hook) {
-//    if ($hook != 'toplevel_page_writegenie_board') {
-//        return;
-//    }
-//wp_enqueue_style('writegenie-admin-style');
-//wp_enqueue_script('writegenie-admin-script');
-//}
-//add_action('admin_enqueue_scripts', 'alecrm_load_assets');

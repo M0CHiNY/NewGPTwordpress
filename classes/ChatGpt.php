@@ -2,6 +2,7 @@
 
 namespace classes;
 
+
 class ChatGpt
 {
     private $api_token;
@@ -9,6 +10,7 @@ class ChatGpt
     private $max_tokens;
     private $language;
     private $wpdb;
+    public $result;
 
     function __construct($wpdb) {
         $this->wpdb = $wpdb;
@@ -21,17 +23,14 @@ class ChatGpt
         $this->language = $results[0]->language;
     }
 
-    function get_languages() {
-        return array("tr","en");
-    }
 
-    function get_language_file() {
-        if(in_array($this->language, $this->get_languages())) {
-            return "language/".$this->language.".php";
-        } else {
-            return "language/en.php";
+     public function getResult(){
+
+        if (!empty($this->result)){
+           return trim($this->result);
         }
-    }
+
+     }
 
     function generate_content($text) {
         $header = array(
@@ -57,7 +56,7 @@ class ChatGpt
         if(200 == $httpcode){
             $json_array = json_decode($response, true);
             $choices = $json_array['choices'];
-            return $choices[0]["text"];
+            $this->result = $choices[0]["text"];
         } else {
             return false;
         }
