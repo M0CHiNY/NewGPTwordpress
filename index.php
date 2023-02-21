@@ -51,7 +51,6 @@ function chat_gpt_wg_deactivate()
 if ( class_exists( 'classes\WGinit' ) ) {
     // Create an instance of the WGinit class
    new WGinit();
-
 }
 
 
@@ -59,10 +58,28 @@ if ( class_exists( 'classes\WGinit' ) ) {
 function writegenie_admin_scripts() {
     wp_enqueue_script( 'writegenie-admin-script', plugin_dir_url( __FILE__ ) . 'js/writegenie-admin.js', array( 'jquery' ), '1.0.0', true );
 }
-add_action( 'admin_enqueue_scripts', 'writegenie_admin_scripts' );
+add_action( 'admin_enqueue_scripts', 'writegenie_admin_scripts' , );
 
 // Enqueue a CSS file
 function writegenie_admin_styles() {
-    wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', 'all' );
+    wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', );
 }
-add_action( 'admin_enqueue_scripts', 'writegenie_admin_styles' );
+add_action( 'admin_enqueue_scripts', 'writegenie_admin_styles', );
+
+
+// Регистрация скриптов и стилей
+//function alecrm_register_assets() {
+//    wp_enqueue_script( 'writegenie-admin-script', plugin_dir_url( __FILE__ ) . 'js/writegenie-admin.js', array( 'jquery' ), '1.0.0', true );
+//
+//    wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', );
+//}
+//add_action('admin_enqueue_scripts', 'alecrm_register_assets');
+////Подключение скриптов и стилей
+//function alecrm_load_assets ($hook) {
+//    if ($hook != 'toplevel_page_writegenie_board') {
+//        return;
+//    }
+//wp_enqueue_style('writegenie-admin-style');
+//wp_enqueue_script('writegenie-admin-script');
+//}
+//add_action('admin_enqueue_scripts', 'alecrm_load_assets');
