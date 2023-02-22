@@ -25,11 +25,11 @@ class ChatGpt
 
 
      public function getResult(){
-
-        if (!empty($this->result)){
            return trim($this->result);
-        }
+     }
 
+     public function getlang(){
+        return $this->language;
      }
 
     function generate_content($text) {

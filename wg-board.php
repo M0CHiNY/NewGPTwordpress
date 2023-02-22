@@ -14,6 +14,13 @@ if (!class_exists('classes\ChatGpt')) {
 global $wpdb;
 $chatGPT = new ChatGpt($wpdb);
 
+$languages = ["ua","en"];
+if(in_array($chatGPT->getlang(),$languages)) {
+    include plugin_dir_path(__FILE__)."language/".$chatGPT->getlang().".php";
+} else {
+    include plugin_dir_path(__FILE__)."language/en.php";
+}
+
 if (isset($_POST['generate'])){
     $user_input = $_POST['request'];
     $chatGPT->generate_content($user_input);
@@ -23,8 +30,10 @@ if (isset($_POST['btn-post'])){
   $title = $_POST['title'];
   $content = $_POST['content'];
   $keys = $_POST['keys'];
+  $category = $_POST['category'];
+  $userID = get_current_user_id();
 
-  $blog = new BlogPost($title, $content, $keys, 'publish', 1, NULL);
+  $blog = new BlogPost($title, $content, $keys, 'publish', $userID, $category);
   $blog->insert_into_database();
 }
 
@@ -54,8 +63,7 @@ function imgPath($path){
                                 </svg>
                             </button>
                             <div class="chat__btn-box">
-                                <input class="btn btn--save" type="submit" name="generate">
-                                <input class="btn btn--reset" type="reset" value="reset">
+                                <input class="btn btn--save" type="submit" name="generate" value="Generate">
                             </div>
                         </label>
                     </form>
@@ -64,7 +72,7 @@ function imgPath($path){
                             <input
                                     class="chat__input input" name="title" placeholder="Example: the most popular pc games" ></label>
                         <label class="chat__label">Post Content <textarea class="chat__text text-to-copy" name="content"
-                                                                                 id="" cols="30" rows="10"></textarea>
+                                                                                 id="" cols="30" rows="10"><?php echo $chatGPT->getResult() ?></textarea>
                             <button class="chat__coppy chat__coppy--post-content">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -79,23 +87,23 @@ function imgPath($path){
                             <?php
                             $categories = get_categories([ 'hide_empty' => 0 ]);
                             foreach ($categories as $category):?>
-                            <label class="chat__lab-check" name='test'><input  type="checkbox"  value="<?= $category->term_id ?>" class="chat__real-checkbox">
+                            <label class="chat__lab-check" ><input  type="checkbox"  value="<?= $category->term_id ?>" class="chat__real-checkbox">
                                 <span class="chat__castom-chekbox"></span><?= $category->name?></label>
                             <?php endforeach ?>
+                            <input type="text" class="chat__real-checkbox--hidden" name="category" value="1" hidden="">
                             </div>
-                        <div class="chat__label"><p>Key Words</p><input class="chat__key" name="keys">
+                        <div class="chat__label"><p>Key Words</p><input class="chat__key" name="keys" value="Fast Break, Sport">
                             <div class="chat__details"><span class="chat__keys"></span></div>
                         </div>
-                        <div class="chat__btn-box"><input class="btn btn--save" type="submit" name="btn-post" value="add post"> <input
-                                    class="btn btn--reset" type="reset" value="reset"></div>
+                        <div class="chat__btn-box"><input class="btn btn--save" type="submit" name="btn-post" value="Add new post"></div>
                     </form>
                 </div>
-                <div class="chat__dialogs"><img class="chat__brain" src="assets/brain.png" alt="">
+                <div class="chat__dialogs"><img class="chat__brain" src="<?= imgPath('brain.png');?>" alt="">
                     <h3 class="chat__title chat__title--change">welcome to gpt chat</h3>
                     <div class="chat__dialog">
                         <div class="chat__author chat__all">
                             <div class="chat__logo-box chat__logo-box--author"><img
-                                        class="chat__logo chat__logo--author" src="assets/logo-author.svg"
+                                        class="chat__logo chat__logo--author" src="<?= imgPath('logo-author.svg');?>"
                                         alt="logo-author"></div>
                             <div class="chat__info chat__info--author"><p>Example: write short article about the most
                                     popular pc games PC gaming has come a long way since its inception and continues to
@@ -105,7 +113,7 @@ function imgPath($path){
                         </div>
                         <div class="chat__ai chat__all">
                             <div class="chat__logo-box chat__logo-box--ai"><img class="chat__logo chat__logo--ai"
-                                                                                src="assets/logo-author.svg"
+                                                                                src="<?= imgPath('logo-author.svg');?>"
                                                                                 alt="logo-ai"></div>
                             <div class="chat__info chat__info--ai"><p>PC gaming has come a long way since its inception
                                     and continues to be a thriving industry with a vast selection of games available for
