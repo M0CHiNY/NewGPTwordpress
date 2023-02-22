@@ -15,8 +15,9 @@ global $wpdb;
 $chatGPT = new ChatGpt($wpdb);
 
 $languages = ["ua","en"];
-if(in_array($chatGPT->getlang(),$languages)) {
-    include plugin_dir_path(__FILE__)."language/".$chatGPT->getlang().".php";
+
+if(in_array($chatGPT->language,$languages)) {
+    include plugin_dir_path(__FILE__)."language/".$chatGPT->language.".php";
 } else {
     include plugin_dir_path(__FILE__)."language/en.php";
 }
@@ -68,7 +69,7 @@ function imgPath($path){
                         </label>
                     </form>
 
-                    <form class="chat__form form-bg" method="POST"><label class="chat__label" >Post Title
+                    <form class="chat__form form-bg" method="POST"><label class="chat__label" ><?php echo $lang["blogTitle"]?>
                             <input
                                     class="chat__input input" name="title" placeholder="Example: the most popular pc games" ></label>
                         <label class="chat__label">Post Content <textarea class="chat__text text-to-copy" name="content"

@@ -8,13 +8,13 @@ class ChatGpt
     private $api_token;
     private $temperature;
     private $max_tokens;
-    private $language;
+    public  $language;
     private $wpdb;
     public $result;
 
     function __construct($wpdb) {
         $this->wpdb = $wpdb;
-        $tablename = $wpdb->prefix.'chatgpt_content_writer';
+        $tablename = $wpdb->prefix.'wg_table_gpt';
         $sql = "SELECT * FROM $tablename";
         $results = $wpdb->get_results($sql);
         $this->api_token = $results[0]->api_token;
@@ -28,9 +28,6 @@ class ChatGpt
            return trim($this->result);
      }
 
-     public function getlang(){
-        return $this->language;
-     }
 
     function generate_content($text) {
         $header = array(
