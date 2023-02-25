@@ -27,16 +27,7 @@ if (isset($_POST['generate'])){
     $chatGPT->generate_content($user_input);
 }
 
-if (isset($_POST['btn-post'])){
-  $title = $_POST['title'];
-  $content = $_POST['content'];
-  $keys = $_POST['keys'];
-  $category = $_POST['category'];
-  $userID = get_current_user_id();
 
-  $blog = new BlogPost($title, $content, $keys, 'publish', $userID, $category);
-  $blog->insert_into_database();
-}
 
 function imgPath($path){
     return plugin_dir_url(__FILE__).'img/assets/'.$path;
@@ -44,6 +35,18 @@ function imgPath($path){
 
 
 
+
+    if (isset($_POST['btn-post'])){
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        $keys = $_POST['keys'];
+        $category = $_POST['category'];
+        $userID = get_current_user_id();
+        $publish = $_POST["view"] == "yes" ? 'publish' : 'draft';
+        $blog = new BlogPost($title, $content, $keys, $publish, $userID, $category);
+        $blog->insert_into_database();
+    }
+    
 $result = wp_get_recent_posts( [
     'numberposts'      => 5,
     'offset'           => 0,
@@ -119,10 +122,10 @@ $result = wp_get_recent_posts( [
                             <fieldset class="switch">
                                 <legend>Publish post: </legend>
 
-                                <input id="yes" name="view" type="radio" >
+                                <input id="yes" name="view" type="radio" value="yes">
                                 <label for="yes">Yes</label>
 
-                                <input id="no" name="view" type="radio" checked>
+                                <input id="no" name="view" type="radio" value="no" checked>
                                 <label for="no">No</label>
 
                                 <span class="switch-button"></span>

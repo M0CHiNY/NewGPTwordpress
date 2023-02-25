@@ -35,6 +35,13 @@ class BlogPost
         $my_post['post_author']   = $this->author;
         $my_post['post_category'] = $this->categoryArray();
         // Insert the post into the database
-        wp_insert_post( $my_post );
+        $this->getMassge(wp_insert_post( $my_post ));
+    }
+
+    public function getMassge ($post){
+        if ($post){
+            $message = __( 'Post created!', 'textdomain' );
+            printf( '<div id="message" class="updated"><p>%s</p></div>', $message );
+        }
     }
 }
