@@ -35,18 +35,6 @@ function imgPath($path){
 
 
 
-
-    if (isset($_POST['btn-post'])){
-        $title = $_POST['title'];
-        $content = $_POST['content'];
-        $keys = $_POST['keys'];
-        $category = $_POST['category'];
-        $userID = get_current_user_id();
-        $publish = $_POST["view"] == "yes" ? 'publish' : 'draft';
-        $blog = new BlogPost($title, $content, $keys, $publish, $userID, $category);
-        $blog->insert_into_database();
-    }
-    
 $result = wp_get_recent_posts( [
     'numberposts'      => 5,
     'offset'           => 0,
@@ -71,8 +59,6 @@ $result = wp_get_recent_posts( [
         <div class="bg" style="background-image: url('<?= imgPath('bg.jpg')?>')">
             <div class="chat__wrap">
                 <div class="chat__left-form-box">
-
-
                     <form class="chat__form form-bg" method="POST">
                         <label class="chat__label" for="">Request to Chat GPT
                             <textarea class="chat__text text-to-copy" name="request" id="" cols="30" rows="10"
@@ -132,6 +118,19 @@ $result = wp_get_recent_posts( [
                             </fieldset>
                         </div>
                         <div class="chat__btn-box"><input class="btn btn--save" type="submit" name="btn-post" value="Add new post"></div>
+                        <?php
+                        if (isset($_POST['btn-post'])){
+                            $title = $_POST['title'];
+                            $content = $_POST['content'];
+                            $keys = $_POST['keys'];
+                            $category = $_POST['category'];
+                            $userID = get_current_user_id();
+                            $publish = $_POST["view"] == "yes" ? 'publish' : 'draft';
+                            $blog = new BlogPost($title, $content, $keys, $publish, $userID, $category);
+                            $blog->insert_into_database();
+                            echo $blog->getMassagehtml();
+                        }
+?>
                     </form>
                 </div>
                 <div class="chat__box-right">

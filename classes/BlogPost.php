@@ -10,6 +10,7 @@ class BlogPost
     private $status;
     private $author;
     private $category;
+    public $massage;
 
     function __construct($title, $content, $keywords, $status, $author, $category) {
         $this->title = $title;
@@ -38,10 +39,21 @@ class BlogPost
         $this->getMassge(wp_insert_post( $my_post ));
     }
 
-    public function getMassge ($post){
-        if ($post){
-            $message = __( 'Post created!', 'textdomain' );
-            printf( '<div id="message" class="updated"><p>%s</p></div>', $message );
+    public function getMassge ($post)
+    {
+        if ($post) {
+            $this->massage = "<div class='massage_alert'>Post created!</div>";
         }
+    }
+
+
+    public function getMassagehtml(){
+        if(!empty($this->massage)){
+            return  $this->massage;
+        }
+        else {
+            return false;
+        }
+
     }
 }

@@ -21,7 +21,6 @@ if (isset($_POST['submit-test'])) {
     $settings->maxTokens = filter_input(INPUT_POST, 'maxTokens', FILTER_VALIDATE_INT) ?? '';
     $settings->selectLanguage = filter_input(INPUT_POST, 'selectLanguage', FILTER_SANITIZE_STRING) ?? '';
     $settings->updateOrInsert();
-
     // Call the method to update or insert the settings
 
 }
