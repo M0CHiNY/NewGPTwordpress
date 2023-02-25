@@ -115,6 +115,19 @@ $result = wp_get_recent_posts( [
                         <div class="chat__label"><p>Key Words</p><input class="chat__key" name="keys" value="Fast Break, Sport">
                             <div class="chat__details"><span class="chat__keys"></span></div>
                         </div>
+                        <div id="group">
+                            <fieldset class="switch">
+                                <legend>Publish post: </legend>
+
+                                <input id="yes" name="view" type="radio" >
+                                <label for="yes">Yes</label>
+
+                                <input id="no" name="view" type="radio" checked>
+                                <label for="no">No</label>
+
+                                <span class="switch-button"></span>
+                            </fieldset>
+                        </div>
                         <div class="chat__btn-box"><input class="btn btn--save" type="submit" name="btn-post" value="Add new post"></div>
                     </form>
                 </div>
