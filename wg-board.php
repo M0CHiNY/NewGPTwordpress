@@ -99,47 +99,115 @@ function imgPath($path){
                         <div class="chat__btn-box"><input class="btn btn--save" type="submit" name="btn-post" value="Add new post"></div>
                     </form>
                 </div>
-                <div class="chat__dialogs"><img class="chat__brain" src="<?= imgPath('brain.png');?>" alt="">
-                    <h3 class="chat__title chat__title--change">welcome to gpt chat</h3>
-                    <div class="chat__dialog">
-                        <div class="chat__author chat__all">
-                            <div class="chat__logo-box chat__logo-box--author"><img
-                                        class="chat__logo chat__logo--author" src="<?= imgPath('logo-author.svg');?>"
-                                        alt="logo-author"></div>
-                            <div class="chat__info chat__info--author"><p>Example: write short article about the most
-                                    popular pc games PC gaming has come a long way since its inception and continues to
-                                    be a thriving industry with a vast selection of games available for players of all
-                                    ages and skill levels. Here are some of the most popular PC games that have captured
-                                    the hearts of players worldwide:</p></div>
+                <div class="chat__box-right">
+                    <div class="chat__dialogs chat--bg">
+                        <img class="chat__brain" src="img/brain.png" alt="">
+                        <h3 class="chat__title chat__title--change">welcome to gpt chat</h3>
+                        <div class="chat__dialog">
+                            <div class="chat__author chat__all">
+                                <div class="chat__logo-box chat__logo-box--author">
+                                    <img class="chat__logo chat__logo--author" src="img/secondPage/logo-author.svg" alt="logo-author">
+                                </div>
+                                <div class="chat__info chat__info--author">
+                                    <p>Example: write short article about the most popular pc games PC gaming has come a long way since
+                                        its
+                                        inception and continues to be a thriving industry with a vast
+                                        selection of games available for players of all ages and skill levels. Here are some of the most
+                                        popular
+                                        PC games that have captured the hearts of players worldwide:</p>
+                                </div>
+                            </div>
+                            <div class="chat__ai chat__all">
+                                <div class="chat__logo-box chat__logo-box--ai">
+                                    <img class="chat__logo chat__logo--ai" src="img/secondPage/logo-author.svg" alt="logo-ai">
+                                </div>
+                                <div class="chat__info chat__info--ai">
+                                    <p>
+                                        PC gaming has come a long way since its inception and continues to be a thriving industry with a
+                                        vast
+                                        selection of games available for players of all ages and skill levels. Here are some of the most
+                                        popular
+                                        PC games that have captured the hearts of players worldwide:
+                                    </p>
+                                    <p>
+                                        Fortnite: This battle royale game has taken the world by storm and has become one of the most
+                                        popular
+                                        games in the world. It is a free-to-play game that offers a unique blend of survival, exploration,
+                                        and
+                                        combat.
+                                    </p>
+                                    <p>
+                                        Apex Legends: Another popular battle royale game, Apex Legends has quickly gained a large player
+                                        base
+                                        with its fast-paced gameplay and unique characters.
+                                    </p>
+                                    <p>
+                                        League of Legends: This MOBA (multiplayer online battle arena) game has been a staple in the world
+                                        of
+                                        gaming for over a decade, with a huge player base and a thriving professional scene.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="chat__ai chat__all">
-                            <div class="chat__logo-box chat__logo-box--ai"><img class="chat__logo chat__logo--ai"
-                                                                                src="<?= imgPath('logo-author.svg');?>"
-                                                                                alt="logo-ai"></div>
-                            <div class="chat__info chat__info--ai"><p>PC gaming has come a long way since its inception
-                                    and continues to be a thriving industry with a vast selection of games available for
-                                    players of all ages and skill levels. Here are some of the most popular PC games
-                                    that have captured the hearts of players worldwide:</p>
-                                <p>Fortnite: This battle royale game has taken the world by storm and has become one of
-                                    the most popular games in the world. It is a free-to-play game that offers a unique
-                                    blend of survival, exploration, and combat.</p>
-                                <p>Apex Legends: Another popular battle royale game, Apex Legends has quickly gained a
-                                    large player base with its fast-paced gameplay and unique characters.</p>
-                                <p>League of Legends: This MOBA (multiplayer online battle arena) game has been a staple
-                                    in the world of gaming for over a decade, with a huge player base and a thriving
-                                    professional scene.</p></div>
-                        </div>
+                        <form class="chat__form chat__form--request" action="">
+                            <input class="chat__input chat__input--request input" type="text" placeholder="Request">
+                            <button class="chat__img-box" type="submit">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                            d="M3.4 20.4L20.85 12.92C21.0304 12.8432 21.1842 12.715 21.2923 12.5514C21.4004 12.3879 21.4581 12.1961 21.4581 12C21.4581 11.804 21.4004 11.6122 21.2923 11.4486C21.1842 11.2851 21.0304 11.1569 20.85 11.08L3.4 3.60003C3.2489 3.53412 3.08377 3.50687 2.91951 3.52073C2.75525 3.53459 2.59702 3.58912 2.4591 3.67942C2.32118 3.76971 2.20791 3.89292 2.1295 4.03793C2.0511 4.18293 2.01003 4.34518 2.01 4.51003L2 9.12003C2 9.62003 2.37 10.05 2.87 10.11L17 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z"
+                                            fill="white" />
+                                </svg>
+                            </button>
+                        </form>
                     </div>
-                    <form class="chat__form chat__form--request"><input class="chat__input chat__input--request input"
-                                                                        placeholder="Request">
-                        <button class="chat__img-box" type="submit">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3.4 20.4L20.85 12.92C21.0304 12.8432 21.1842 12.715 21.2923 12.5514C21.4004 12.3879 21.4581 12.1961 21.4581 12C21.4581 11.804 21.4004 11.6122 21.2923 11.4486C21.1842 11.2851 21.0304 11.1569 20.85 11.08L3.4 3.60003C3.2489 3.53412 3.08377 3.50687 2.91951 3.52073C2.75525 3.53459 2.59702 3.58912 2.4591 3.67942C2.32118 3.76971 2.20791 3.89292 2.1295 4.03793C2.0511 4.18293 2.01003 4.34518 2.01 4.51003L2 9.12003C2 9.62003 2.37 10.05 2.87 10.11L17 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z"
-                                      fill="white"/>
-                            </svg>
-                        </button>
-                    </form>
+                    <!-- chat -->
+                    <div class="chat__aricle-list chat--bg">
+                        <div class="chat__caption">
+                            <h3 class="chat__caption-title">Recent posts</h3>
+                            <button class="chat__res-article">
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g opacity="0.5">
+                                        <path
+                                                d="M13.8124 3.12497C8.51031 2.97914 4.16656 7.23956 4.16656 12.5H2.30197C1.83322 12.5 1.60406 13.0625 1.93739 13.3854L4.84364 16.3021C5.05197 16.5104 5.37489 16.5104 5.58322 16.3021L8.48947 13.3854C8.56145 13.312 8.61009 13.2189 8.62925 13.1178C8.64841 13.0168 8.63723 12.9124 8.59712 12.8177C8.55702 12.723 8.48979 12.6423 8.4039 12.5858C8.31801 12.5292 8.2173 12.4994 8.11447 12.5H6.24989C6.24989 8.43747 9.56239 5.15622 13.6457 5.20831C17.5207 5.26039 20.7811 8.52081 20.8332 12.3958C20.8853 16.4687 17.6041 19.7916 13.5416 19.7916C11.8645 19.7916 10.3124 19.2187 9.08322 18.25C8.88371 18.0928 8.63338 18.0144 8.37985 18.0298C8.12633 18.0452 7.8873 18.1532 7.70822 18.3333C7.27072 18.7708 7.30197 19.5104 7.79156 19.8854C9.42815 21.1796 11.4551 21.881 13.5416 21.875C18.802 21.875 23.0624 17.5312 22.9166 12.2291C22.7811 7.34372 18.6978 3.26039 13.8124 3.12497ZM13.2811 8.33331C12.8541 8.33331 12.4999 8.68747 12.4999 9.11456V12.9479C12.4999 13.3125 12.6978 13.6562 13.0103 13.8437L16.2603 15.7708C16.6353 15.9896 17.1145 15.8646 17.3332 15.5C17.552 15.125 17.427 14.6458 17.0624 14.4271L14.0624 12.6458V9.10414C14.0624 8.68747 13.7082 8.33331 13.2811 8.33331Z"
+                                                fill="white" />
+                                    </g>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="chat__paper">
+                            <div class="chat__article">
+                                <div class="chat__paper-info">
+                                    The most popular PC...
+                                    <span class="chat__style-title">
+                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M12.5 0L15.8761 9.12387L25 12.5L15.8761 15.8761L12.5 25L9.12387 15.8761L0 12.5L9.12387 9.12387L12.5 0Z"
+                                fill="white" />
+                      </svg>
+                    </span>
+                                </div>
+                                <time class="chat__time" datetime="22.02.2023 18:35">22.02.2023 18:35</time>
+                            </div>
+                            <a class="chat__link-article" href="#">Edit post</a>
+                        </div>
+                        <div class="chat__paper">
+                            <div class="chat__article">
+                                <div class="chat__paper-info">
+                                    The most popular PC...
+                                    <span class="chat__style-title">
+                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M12.5 0L15.8761 9.12387L25 12.5L15.8761 15.8761L12.5 25L9.12387 15.8761L0 12.5L9.12387 9.12387L12.5 0Z"
+                                fill="white" />
+                      </svg>
+                    </span>
+                                </div>
+                                <time class="chat__time" datetime="22.02.2023 18:35">22.02.2023 18:35</time>
+                            </div>
+                            <a class="chat__link-article" href="#">Edit post</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <span class="settings__version">Version 1.0</span></div>
