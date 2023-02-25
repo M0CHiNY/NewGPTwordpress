@@ -42,6 +42,25 @@ function imgPath($path){
     return plugin_dir_url(__FILE__).'img/assets/'.$path;
 }
 
+
+
+$result = wp_get_recent_posts( [
+    'numberposts'      => 5,
+    'offset'           => 0,
+    'category'         => 0,
+    'orderby'          => 'post_date',
+    'order'            => 'DESC',
+    'include'          => '',
+    'exclude'          => '',
+    'meta_key'         => '',
+    'meta_value'       => '',
+    'post_type'        => 'post',
+    'post_status'      => 'draft, publish, future, pending, private',
+    'suppress_filters' => true,
+], OBJECT );
+
+
+
 ?>
 <section class="chat">
     <div class="container">
@@ -160,6 +179,7 @@ function imgPath($path){
                             </button>
                         </form>
                     </div>
+
                     <!-- chat -->
                     <div class="chat__aricle-list chat--bg">
                         <div class="chat__caption">
@@ -174,10 +194,15 @@ function imgPath($path){
                                 </svg>
                             </button>
                         </div>
+
+                        <?php
+                        foreach ($result as $post):
+                        setup_postdata($post);
+                        ?>
                         <div class="chat__paper">
                             <div class="chat__article">
                                 <div class="chat__paper-info">
-                                    The most popular PC...
+                                    <?php echo $post->post_title?>
                                     <span class="chat__style-title">
                       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -186,26 +211,14 @@ function imgPath($path){
                       </svg>
                     </span>
                                 </div>
-                                <time class="chat__time" datetime="22.02.2023 18:35">22.02.2023 18:35</time>
+                                <time class="chat__time" datetime="<?php echo $post->post_date?>"><?php echo $post->post_date?></time>
                             </div>
-                            <a class="chat__link-article" href="#">Edit post</a>
+                            <a class="chat__link-article" target="_blank" href="<?php echo get_edit_post_link($post->ID, '') ?>">Edit post</a>
                         </div>
-                        <div class="chat__paper">
-                            <div class="chat__article">
-                                <div class="chat__paper-info">
-                                    The most popular PC...
-                                    <span class="chat__style-title">
-                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                                d="M12.5 0L15.8761 9.12387L25 12.5L15.8761 15.8761L12.5 25L9.12387 15.8761L0 12.5L9.12387 9.12387L12.5 0Z"
-                                fill="white" />
-                      </svg>
-                    </span>
-                                </div>
-                                <time class="chat__time" datetime="22.02.2023 18:35">22.02.2023 18:35</time>
-                            </div>
-                            <a class="chat__link-article" href="#">Edit post</a>
-                        </div>
+                        <?php endforeach;
+                        wp_reset_postdata();
+                        ?>
+
 
                     </div>
                 </div>
