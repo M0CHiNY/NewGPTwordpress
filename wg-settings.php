@@ -16,9 +16,9 @@ $settings = new Settings();
 
 if (isset($_POST['submit-test'])) {
     // Validate and set the object properties
-    $settings->temperatureValue = filter_input(INPUT_POST, 'temperatureValue', FILTER_VALIDATE_FLOAT) ?? '';
+    $settings->temperatureValue = (filter_input(INPUT_POST, 'temperatureValue', FILTER_VALIDATE_FLOAT) / 100) ?? '';
     $settings->apiToken = filter_input(INPUT_POST, 'apiToken', FILTER_SANITIZE_STRING) ?? '';
-    $settings->maxTokens = filter_input(INPUT_POST, 'maxTokens', FILTER_VALIDATE_INT) ?? '';
+    $settings->maxTokens = filter_input(INPUT_POST, 'maxTokens', FILTER_VALIDATE_INT)  ?? '';
     $settings->selectLanguage = filter_input(INPUT_POST, 'selectLanguage', FILTER_SANITIZE_STRING) ?? '';
     $settings->updateOrInsert();
     // Call the method to update or insert the settings

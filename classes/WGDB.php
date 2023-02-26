@@ -92,7 +92,7 @@ class WGDB {
 
         // Define the SQL query for inserting default values
         $sql = "INSERT INTO $this->table_name (api_token, temperature, max_tokens, language)
-            VALUES ('default_api_token', '60', '2048', 'en');";
+            VALUES ('default_api_token', '0.7', '2048', 'en');";
 
         // Run the SQL query to insert default values
         $result = $wpdb->query( $sql );
