@@ -1,5 +1,4 @@
 <?php
-
 use classes\ChatGpt;
 use classes\BlogPost;
 
@@ -13,6 +12,7 @@ if (!class_exists('classes\ChatGpt')) {
 
 global $wpdb;
 $chatGPT = new ChatGpt($wpdb);
+$NewChat = new ChatGpt($wpdb);
 
 $languages = ["ua","en"];
 
@@ -52,7 +52,51 @@ $result = wp_get_recent_posts( [
 
 
 
+$dialog_history = [];
+
+// Check if form is submitted
+if (isset($_POST['chat-requestgpt-button'])) {
+    $request = $_POST['chat-requestgpt'];
+    $NewChat->generate_content($request);
+
+    // Add user request to dialog history
+    $dialog_history[] = [
+        'author' => 'user',
+        'message' => $request
+    ];
+
+    // Call API to generate AI response
+    $ai_response = 'This is the AI response for "' . $request . '"';
+
+    // Add AI response to dialog history
+    $dialog_history[] = [
+        'author' => 'ai',
+        'message' => $NewChat->getResult(),
+    ];
+}
+
+
+
+
+if(empty($dialog_history)){
+
+    $dialog_history[] = [
+        'author' => 'user',
+        'message' => 'This my massage',
+    ];
+    // Add AI response to dialog history
+    $dialog_history[] = [
+        'author' => 'ai',
+        'message' => 'Hello, how can I assist you today?',
+    ];
+
+}
+
+$_SESSION['dialog_history'] = $dialog_history;
+
+
 ?>
+
 <section class="chat">
     <div class="container">
         <div class="settings__logo-box"><a class="settings__logo" href="/"><img class="settings__logo-img" src="<?= imgPath('logo.png');?>" alt="logo GPT WriteGenie"></a></div>
@@ -135,57 +179,47 @@ $result = wp_get_recent_posts( [
                 </div>
                 <div class="chat__box-right">
                     <div class="chat__dialogs chat--bg">
-                        <img class="chat__brain" src="img/brain.png" alt="">
+                        <img class="chat__brain" src="<?php echo imgPath("brain.png")?>" alt="">
                         <h3 class="chat__title chat__title--change">welcome to gpt chat</h3>
                         <div class="chat__dialog">
+
+                           <?php
+                           foreach ($dialog_history as $dialog):
+                               if ($dialog['author'] == 'user'):
+                               ?>
                             <div class="chat__author chat__all">
                                 <div class="chat__logo-box chat__logo-box--author">
-                                    <img class="chat__logo chat__logo--author" src="img/secondPage/logo-author.svg" alt="logo-author">
+                                    <img class="chat__logo chat__logo--author" src="<?php echo imgPath("user.svg")?>" alt="logo-author">
                                 </div>
                                 <div class="chat__info chat__info--author">
-                                    <p>Example: write short article about the most popular pc games PC gaming has come a long way since
-                                        its
-                                        inception and continues to be a thriving industry with a vast
-                                        selection of games available for players of all ages and skill levels. Here are some of the most
-                                        popular
-                                        PC games that have captured the hearts of players worldwide:</p>
+                                    <p>
+                                    <?php echo $dialog['message']?>
+                                    </p>
                                 </div>
                             </div>
+
+                            <?php
+                               endif;
+
+                            if ($dialog['author'] == 'ai'):
+                            ?>
                             <div class="chat__ai chat__all">
                                 <div class="chat__logo-box chat__logo-box--ai">
-                                    <img class="chat__logo chat__logo--ai" src="img/secondPage/logo-author.svg" alt="logo-ai">
+                                    <img class="chat__logo chat__logo--ai" src="<?php echo imgPath("chatgpt-icon.svg")?>" alt="logo-ai">
                                 </div>
                                 <div class="chat__info chat__info--ai">
                                     <p>
-                                        PC gaming has come a long way since its inception and continues to be a thriving industry with a
-                                        vast
-                                        selection of games available for players of all ages and skill levels. Here are some of the most
-                                        popular
-                                        PC games that have captured the hearts of players worldwide:
-                                    </p>
-                                    <p>
-                                        Fortnite: This battle royale game has taken the world by storm and has become one of the most
-                                        popular
-                                        games in the world. It is a free-to-play game that offers a unique blend of survival, exploration,
-                                        and
-                                        combat.
-                                    </p>
-                                    <p>
-                                        Apex Legends: Another popular battle royale game, Apex Legends has quickly gained a large player
-                                        base
-                                        with its fast-paced gameplay and unique characters.
-                                    </p>
-                                    <p>
-                                        League of Legends: This MOBA (multiplayer online battle arena) game has been a staple in the world
-                                        of
-                                        gaming for over a decade, with a huge player base and a thriving professional scene.
+                                        <?php echo $dialog['message']?>
                                     </p>
                                 </div>
                             </div>
+                            <?php
+                            endif;
+                            endforeach;?>
                         </div>
-                        <form class="chat__form chat__form--request" action="">
-                            <input class="chat__input chat__input--request input" type="text" placeholder="Request">
-                            <button class="chat__img-box" type="submit">
+                        <form class="chat__form chat__form--request" method="post">
+                            <input class="chat__input chat__input--request input" type="text" placeholder="Request" name="chat-requestgpt">
+                            <button class="chat__img-box" type="submit" name="chat-requestgpt-button">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                             d="M3.4 20.4L20.85 12.92C21.0304 12.8432 21.1842 12.715 21.2923 12.5514C21.4004 12.3879 21.4581 12.1961 21.4581 12C21.4581 11.804 21.4004 11.6122 21.2923 11.4486C21.1842 11.2851 21.0304 11.1569 20.85 11.08L3.4 3.60003C3.2489 3.53412 3.08377 3.50687 2.91951 3.52073C2.75525 3.53459 2.59702 3.58912 2.4591 3.67942C2.32118 3.76971 2.20791 3.89292 2.1295 4.03793C2.0511 4.18293 2.01003 4.34518 2.01 4.51003L2 9.12003C2 9.62003 2.37 10.05 2.87 10.11L17 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z"

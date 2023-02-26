@@ -65,3 +65,9 @@ function writegenie_admin_styles() {
     wp_enqueue_style( 'writegenie-admin-style', plugin_dir_url( __FILE__ ) . 'css/writegenie-admin.css', array(), '1.0.0', );
 }
 add_action( 'admin_enqueue_scripts', 'writegenie_admin_styles', );
+
+
+
+
+
+
