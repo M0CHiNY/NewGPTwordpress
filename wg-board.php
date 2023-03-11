@@ -5,6 +5,7 @@ use classes\BlogPost;
 require plugin_dir_path(__FILE__) . 'classes/ChatGpt.php';
 require plugin_dir_path(__FILE__) . 'classes/BlogPost.php';
 
+
 // Check if the required class exists
 if (!class_exists('classes\ChatGpt')) {
     exit('The Settings class is missing.');
@@ -12,7 +13,6 @@ if (!class_exists('classes\ChatGpt')) {
 
 global $wpdb;
 $chatGPT = new ChatGpt($wpdb);
-$NewChat = new ChatGpt($wpdb);
 
 $languages = ["ua","en"];
 
@@ -50,51 +50,6 @@ $result = wp_get_recent_posts( [
     'suppress_filters' => true,
 ], OBJECT );
 
-
-
-$dialog_history = [];
-
-// Check if form is submitted
-if (isset($_POST['chat-requestgpt-button'])) {
-    $request = $_POST['chat-requestgpt'];
-    $NewChat->generate_content($request);
-
-    // Add user request to dialog history
-    $dialog_history[] = [
-        'author' => 'user',
-        'message' => $request
-    ];
-
-    // Call API to generate AI response
-    $ai_response = 'This is the AI response for "' . $request . '"';
-
-    // Add AI response to dialog history
-    $dialog_history[] = [
-        'author' => 'ai',
-        'message' => $NewChat->getResult(),
-    ];
-}
-
-
-
-
-if(empty($dialog_history)){
-
-    $dialog_history[] = [
-        'author' => 'user',
-        'message' => 'This my massage',
-    ];
-    // Add AI response to dialog history
-    $dialog_history[] = [
-        'author' => 'ai',
-        'message' => 'Hello, how can I assist you today?',
-    ];
-
-}
-
-$_SESSION['dialog_history'] = $dialog_history;
-
-
 ?>
 
 <section class="chat">
@@ -106,7 +61,7 @@ $_SESSION['dialog_history'] = $dialog_history;
                     <form class="chat__form form-bg" method="POST">
                         <label class="chat__label" for="">Request to Chat GPT
                             <textarea class="chat__text text-to-copy" name="request" id="" cols="30" rows="10"
-                                      placeholder="Example: write short article about the most popular pc games "><?php echo $chatGPT->getResult() ?></textarea>
+                                      placeholder="Example: write short article about the most popular pc games "><?php echo $chatGPT->getResult()['content'] ?? ''; ?></textarea>
                             <div class="copy-message"></div>
                             <button class="chat__coppy">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
@@ -123,9 +78,9 @@ $_SESSION['dialog_history'] = $dialog_history;
 
                     <form class="chat__form form-bg" method="POST"><label class="chat__label" ><?php echo $lang["blogTitle"]?>
                             <input
-                                    class="chat__input input" name="title" placeholder="Example: the most popular pc games" ></label>
+                                    class="chat__input input" name="title" placeholder="Example: the most popular pc games" value="<?php echo $chatGPT->getResult()['title'] ?? '';?>"></label>
                         <label class="chat__label">Post Content <textarea class="chat__text text-to-copy" name="content"
-                                                                                 id="" cols="30" rows="10"><?php echo $chatGPT->getResult() ?></textarea>
+                                                                                 id="" cols="30" rows="10"><?php echo $chatGPT->getResult()['content'] ?? ''; ?></textarea>
                             <button class="chat__coppy chat__coppy--post-content">
                                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +100,7 @@ $_SESSION['dialog_history'] = $dialog_history;
                             <?php endforeach ?>
                             <input type="text" class="chat__real-checkbox--hidden" name="category" value="1" hidden="">
                             </div>
-                        <div class="chat__label"><p>Key Words</p><input class="chat__key" name="keys" value="Fast Break, Sport">
+                        <div class="chat__label"><p>Key Words</p><input class="chat__key" name="keys" value="<?php echo $chatGPT->getResult()['keywords'] ?? 'sport,football'; ?>">
                             <div class="chat__details"><span class="chat__keys"></span></div>
                         </div>
                         <div id="group">
@@ -178,56 +133,7 @@ $_SESSION['dialog_history'] = $dialog_history;
                     </form>
                 </div>
                 <div class="chat__box-right">
-                    <div class="chat__dialogs chat--bg">
-                        <img class="chat__brain" src="<?php echo imgPath("brain.png")?>" alt="">
-                        <h3 class="chat__title chat__title--change">welcome to gpt chat</h3>
-                        <div class="chat__dialog">
-
-                           <?php
-                           foreach ($dialog_history as $dialog):
-                               if ($dialog['author'] == 'user'):
-                               ?>
-                            <div class="chat__author chat__all">
-                                <div class="chat__logo-box chat__logo-box--author">
-                                    <img class="chat__logo chat__logo--author" src="<?php echo imgPath("user.svg")?>" alt="logo-author">
-                                </div>
-                                <div class="chat__info chat__info--author">
-                                    <p>
-                                    <?php echo $dialog['message']?>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <?php
-                               endif;
-
-                            if ($dialog['author'] == 'ai'):
-                            ?>
-                            <div class="chat__ai chat__all">
-                                <div class="chat__logo-box chat__logo-box--ai">
-                                    <img class="chat__logo chat__logo--ai" src="<?php echo imgPath("chatgpt-icon.svg")?>" alt="logo-ai">
-                                </div>
-                                <div class="chat__info chat__info--ai">
-                                    <p>
-                                        <?php echo $dialog['message']?>
-                                    </p>
-                                </div>
-                            </div>
-                            <?php
-                            endif;
-                            endforeach;?>
-                        </div>
-                        <form class="chat__form chat__form--request" method="post">
-                            <input class="chat__input chat__input--request input" type="text" placeholder="Request" name="chat-requestgpt">
-                            <button class="chat__img-box" type="submit" name="chat-requestgpt-button">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                            d="M3.4 20.4L20.85 12.92C21.0304 12.8432 21.1842 12.715 21.2923 12.5514C21.4004 12.3879 21.4581 12.1961 21.4581 12C21.4581 11.804 21.4004 11.6122 21.2923 11.4486C21.1842 11.2851 21.0304 11.1569 20.85 11.08L3.4 3.60003C3.2489 3.53412 3.08377 3.50687 2.91951 3.52073C2.75525 3.53459 2.59702 3.58912 2.4591 3.67942C2.32118 3.76971 2.20791 3.89292 2.1295 4.03793C2.0511 4.18293 2.01003 4.34518 2.01 4.51003L2 9.12003C2 9.62003 2.37 10.05 2.87 10.11L17 12L2.87 13.88C2.37 13.95 2 14.38 2 14.88L2.01 19.49C2.01 20.2 2.74 20.69 3.4 20.4Z"
-                                            fill="white" />
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
+                    <div class="test"></div>
 
                     <!-- chat -->
                     <div class="chat__aricle-list chat--bg">
@@ -267,11 +173,12 @@ $_SESSION['dialog_history'] = $dialog_history;
                         <?php endforeach;
                         wp_reset_postdata();
                         ?>
-
-
                     </div>
                 </div>
             </div>
             <span class="settings__version">Version 1.0</span></div>
     </div>
 </section>
+
+
+
